@@ -1,16 +1,6 @@
 from dataclasses import dataclass, field
 
-from config import CONFIG
-
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import NoSuchElementException, StaleElementReferenceException
-from selenium.webdriver.common.keys import Keys
-
-config = CONFIG()
-PLAYLIST_URL_BEGINNING = "https://open.spotify.com/playlist/"
+from constants import PLAYLIST_URL_BEGINNING
 
 @dataclass
 class Song:
@@ -21,20 +11,17 @@ class Song:
 @dataclass
 class Playlist:
     url: str = field()
-    name: str = field(default="")
+    name: str = field()
+    length: int = field()
     songs: list = field(default_factory = list, repr=False)
 
-    def check_url_validity(self, url) -> bool:
+    @staticmethod
+    def check_url_validity(url) -> bool:
         return url.startswith(PLAYLIST_URL_BEGINNING)
 
-    def __post_init__(self):
-        if self.check_url_validity(self.url):
-            print("Valid URL")
-        else:
-            print("Invalid URL")
-            return
 
-p = Playlist("https://open.spotify.com/playlist/23wG5Cdc2rU9DsfTlAg4ij?si=5f84561f1b054c3c")
+#p = Playlist("https://open.spotify.com/playlist/23wG5Cdc2rU9DsfTlAg4ij?si=5f84561f1b054c3c", "a", 3)
+#print(repr(p))
 
 #s1 = Song("a", "b")
 #s2 = Song("b", "b")
